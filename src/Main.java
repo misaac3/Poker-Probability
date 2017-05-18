@@ -23,7 +23,7 @@ public class Main {
 
         Table table = new Table(card1, card2, card3, card4, card5);
 
-        int numPlayer = 5;
+        int numPlayer = 3;
         Player[] playerList = new Player[numPlayer];
         for(int i = 0; i < playerList.length; i++) {
             playerList[i] = new Player("Player" + (i+1), deck.removeCard(), deck.removeCard(), table);
@@ -49,16 +49,12 @@ public class Main {
             if (i == 3) {
                 table.drawRiver();
             }
-//            System.out.println("\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-//                    "\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n" +
-//                    "\n---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+
             printPlayerCurrently(playerList, table);
             printFlushProb(playerList, table);
             printDupValues(playerList, table);
-            printAndUpdateStraights(table, playerList);
+            //   printAndUpdateStraights(table, playerList);
 
-
-            //  updatePlayersStraights(playerList, table);
 
         }
 
@@ -217,7 +213,7 @@ public static void printAndUpdateStraights(Table table, Player[] playerList){
     }
 
     public static Deck shuffleDeck(Deck deck) {
-        Random rng = new Random(163);
+        Random rng = new Random(16314);
         Card[] shuffledDeck = new Card[52];
         int i = 0;
 

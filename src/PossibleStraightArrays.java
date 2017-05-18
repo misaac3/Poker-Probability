@@ -18,7 +18,7 @@ public class PossibleStraightArrays {
 //}
 
 
-    private int maxValueOfStraight = 5;
+    private int maxValueOfStraight = 4;
 
     private PossibleStraights[] allStraights = new PossibleStraights[11];
 
@@ -37,12 +37,14 @@ public class PossibleStraightArrays {
 
     private int numStraightsPossible;
 
+
+
     private ArrayList<PossibleStraights> highestProbabiltiyStraight;
 
     private Table table;
     private Player player;
     private int indexOfMostLikely;
-    private boolean[] activeStraightPossible = new boolean[9];
+    private boolean[] activeStraightPossible = new boolean[11];
     private int[] numCardsNeeded = new int[9];
 
     private ArrayList<PossibleStraights> listOfBPS = new ArrayList<>(11);
@@ -104,9 +106,12 @@ public class PossibleStraightArrays {
         for (int i = 0; i < allStraights.length; i++) {
             for (int j = 0; j < allStraights[i].getStraightNums().length; j++) {
                 if (player.getHighCard().getValueNum() == allStraights[i].getStraightNums()[j]){
-                    allStraights[i].setPossible(true);
+                    if(!allStraights[i].isPossible()) {
+                        allStraights[i].setPossible(true);
+                        this.numStraightsPossible++;
+                    }
+
                     allStraights[i].decrementNumLeft();
-                    this.numStraightsPossible++;
                     allStraights[i].setHasCard(j);
                 }
 

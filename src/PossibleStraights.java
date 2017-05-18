@@ -62,7 +62,20 @@ public class PossibleStraights {
     public String toString() {
         String s = "";
         for (int i = 0; i < straightNums.length; i++) {
-            s += straightNums[i] + ", ";
+            if(straightNums[i] < 11){
+                s += straightNums[i] + ", ";
+            }
+            else{
+                String st = "";
+                switch (straightNums[i]){
+                    case(11) : st = "J, "; break;
+                    case(12) : st = "Q, "; break;
+                    case(13) : st = "K, "; break;
+                    case(14) : st = "A, "; break;
+                }
+                s+= st;
+
+            }
         }
 
         return s;
