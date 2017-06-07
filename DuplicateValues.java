@@ -21,8 +21,8 @@ public class DuplicateValues {
     }
 
     public boolean checkForPairs(Player player){
-        if(player.getCard1().getValueNum() == player.getCard2().getValueNum()) {
-            this.dupCard = player.getCard1();
+        if(player.getHand().getCard1().getValueNum() == player.getHand().getCard2().getValueNum()) {
+            this.dupCard = player.getHand().getCard1();
             return true;
         }
         else{
@@ -33,7 +33,7 @@ public class DuplicateValues {
     public boolean checkForTrips(Player player, Table table){
         if(this.hasPair) {
             for (int i = 0; i < table.getNumActiveCards(); i++) {
-                if (player.getCard1().getValueNum() == table.getActiveCards()[i].getValueNum()) {
+                if (player.getHand().getCard1().getValueNum() == table.getActiveCards()[i].getValueNum()) {
                     this.dupCard = table.getActiveCards()[i];
                     return true;
                 }
@@ -48,7 +48,7 @@ public class DuplicateValues {
         int count = 0;
         if(this.hasPair) {
             for (int i = 0; i < table.getNumActiveCards(); i++) {
-                if (player.getCard1().getValueNum() == table.getActiveCards()[i].getValueNum()) {
+                if (player.getHand().getCard1().getValueNum() == table.getActiveCards()[i].getValueNum()) {
                     count++;
                     if (count >= 2) {
                         this.dupCard = table.getActiveCards()[i];

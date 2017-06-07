@@ -118,12 +118,12 @@ public class PossibleStraights {
                 }
 
                 if (!table.getFlop().isDrawn()){
-                    if (straightNums[i] == player.getLowCard().getValueNum() || straightNums[i] == player.getHighCard().getValueNum()) {
-                        if (straightNums[i] == player.getLowCard().getValueNum()) {
+                    if (straightNums[i] == player.getHand().getLowCard().getValueNum() || straightNums[i] == player.getHand().getHighCard().getValueNum()) {
+                        if (straightNums[i] == player.getHand().getLowCard().getValueNum()) {
                             numLeft--;
 
                         }
-                        if (straightNums[i] == player.getHighCard().getValueNum()) {
+                        if (straightNums[i] == player.getHand().getHighCard().getValueNum()) {
                             numLeft--;
 
                         }

@@ -105,7 +105,7 @@ public class PossibleStraightArrays {
 
         for (int i = 0; i < allStraights.length; i++) {
             for (int j = 0; j < allStraights[i].getStraightNums().length; j++) {
-                if (player.getHighCard().getValueNum() == allStraights[i].getStraightNums()[j]){
+                if (player.getHand().getHighCard().getValueNum() == allStraights[i].getStraightNums()[j]){
                     if(!allStraights[i].isPossible()) {
                         allStraights[i].setPossible(true);
                         this.numStraightsPossible++;
@@ -115,7 +115,7 @@ public class PossibleStraightArrays {
                     allStraights[i].setHasCard(j);
                 }
 
-                else if(player.getLowCard().getValueNum() == allStraights[i].getStraightNums()[j]){
+                else if(player.getHand().getLowCard().getValueNum() == allStraights[i].getStraightNums()[j]){
                     if(!allStraights[i].isPossible()){
                         allStraights[i].setPossible(true);
                         this.numStraightsPossible++;
