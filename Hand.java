@@ -13,10 +13,7 @@ public class Hand {
     private int cardsBetweenStraightDraw;
     private int numPossibleStraights;
     private String str;
-
-
     private ArrayList<ArrayList<ProbabilityTree>> treeStorage = new ArrayList<ArrayList<ProbabilityTree>>(9);
-
     private boolean isPair, isSuited;
 
 
@@ -42,7 +39,7 @@ public class Hand {
     public ArrayList<ArrayList<ProbabilityTree>> fillTreeStorage(){
         ArrayList<ArrayList<ProbabilityTree>> ts = new ArrayList<ArrayList<ProbabilityTree>>(9);
         if(isPair){
-            ts.get(0).add(new ProbabilityTree(2,0, 1));
+           // ts.get(0).add(new ProbabilityTree(2,0, 1));
         }
 
 

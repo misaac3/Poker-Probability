@@ -14,13 +14,13 @@ public class Main {
         deck = shuffleDeck(deck);
         deck.printDeck();
 
-        ProbabilityTree treeForPair = new ProbabilityTree(6, 1, 1);
+        ProbabilityTree treeForPair = new ProbabilityTree(6, 1, 1,0, new Card(2,12));
         System.out.println("Probability of getting a Pair is " + treeForPair.getProbabilityOfAchievingHand(treeForPair.getCurrentNode()));
         System.out.println("Moving current node to yes");
         treeForPair.moveCurrentNode("yes");
         System.out.println("Probability of getting a Pair after a yes is " + treeForPair.getProbabilityOfAchievingHand(treeForPair.getCurrentNode()));
 
-        ProbabilityTree treeForStraight = new ProbabilityTree(12, 3, 4);
+        ProbabilityTree treeForStraight = new ProbabilityTree(12, 3, 4, 3, new Card(2,12));
         System.out.println("Probability of getting a straight is " + treeForStraight.getProbabilityOfAchievingHand(treeForStraight.getCurrentNode()));
         treeForStraight.moveCurrentNode("yes");
         System.out.println("Probability of getting a straight after a yes is " + treeForStraight.getProbabilityOfAchievingHand(treeForStraight.getCurrentNode()));
@@ -30,6 +30,8 @@ public class Main {
         System.out.println("Probability of getting a straight after 2 yes and 1 no is " + treeForStraight.getProbabilityOfAchievingHand(treeForStraight.getCurrentNode()));
         treeForStraight.moveCurrentNode("yes");
         System.out.println("Probability of getting a straight after 3 yes and 1 no is " + treeForStraight.getProbabilityOfAchievingHand(treeForStraight.getCurrentNode()));
+
+        ProbabilityTree testForTrips = new ProbabilityTree(3,2,1, 2, new Card(1,14));
 
         Card[] tableCards = new Card[5];
         Card card1 = deck.removeCard();

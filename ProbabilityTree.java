@@ -3,45 +3,59 @@
  */
 public class ProbabilityTree{
     private double deck = 50;
-    private double prob = 1.0;
-    private double totalProb = 1.0;
+    private double prob, totalProb = 1.0;
+    //private double totalProb = 1.0;
     private ProbabilityTreeNode root;
 
     private String name;
-    private int type; //0 is pair, 1 is two pair, 2 is three of a kind... ...8 is Royal Flush
+
+    private int type;   //0 is pair, 1 is two pair, 2 is three of a kind
+                        //3 is straight, 4 is flush, 5 is full house
+                        //6 is four of a kind, 7 is straight flush , 8 is Royal Flush
+
     private ProbabilityTreeNode currentNode;
-    private Card relevantCard1;
-    private Card relevantCard2;
-    private int numRelevantCards;
 
-    //
+    private TargetCardArrayList targetCards;
 
-    public ProbabilityTree(double target, double needed, double targetDecrementation){
+
+    public ProbabilityTree(double target, double needed, double targetDecrementation, int type, Card distinguisingCard){
+
 
         this.currentNode = this.root = new ProbabilityTreeNode(target, deck, needed, targetDecrementation, prob, totalProb);
         this.root.setTotalProb(1.0);
         updateTree(root);
         this.type = type;
+
+        if(type < 4 || type == 5 || type == 6){
+            targetCards = new TargetCardArrayList(1);
+        }
+        else if(type == 4){
+            targetCards = new TargetCardArrayList(2);
+        }
+        else{
+            targetCards = new TargetCardArrayList(3);
+        }
+
+        if(type != 3 && type < 7){
+            targetCards.intializeTargetCards(distinguisingCard, type);
+        }
+        else if(type == 3){
+            targetCards.intializeStraightTargets(distinguisingCard.getValueNum()); //TODO when making trees for straights make new Cards when contruscting
+        }
+        else if (type == 7){
+            targetCards.intializeSuitedStraightTargets(distinguisingCard.getValueNum(), distinguisingCard, 0);
+        }
+        else {
+            targetCards.intializeSuitedStraightTargets(14, distinguisingCard, 1);
+
+        }
+
+        System.out.println("\nI am printing from the ProbabilityTree Constructor\nMy distinguisingCard is " + distinguisingCard + " \nHere are my target Cards: " + targetCards + "\n");
+
+
+
     }
 
-//    public ProbabilityTree(Card relevantCard, int type, double target, double needed, double targetDecrementation){
-//
-//        this.currentNode = this.root = new ProbabilityTreeNode(target, deck, needed, targetDecrementation, prob, totalProb);
-//        this.type = type;
-//        this.relevantCard1 = relevantCard;
-//        this.numRelevantCards = 1;
-//
-//    }
-//
-//    public ProbabilityTree(Card relevantCard1, Card relevantCard2, int type, double target, double needed, double targetDecrementation){
-//
-//        this.currentNode = this.root = new ProbabilityTreeNode(target, deck, needed, targetDecrementation, prob, totalProb);
-//        this.type = type;
-//        this.relevantCard1 = relevantCard1;
-//        this.relevantCard2 = relevantCard2;
-//        this.numRelevantCards = 1;
-//
-//    }
 
     public void moveCurrentNode(String move){
         if (move.toLowerCase().equals("yes")){
@@ -63,21 +77,6 @@ public class ProbabilityTree{
         return d;
     }
 
-    public void updateTree(ProbabilityTreeNode startNode){
-        startNode.setTotalProb(1);
-        updateTreeHelper(startNode);
-    }
-
-    public void updateTreeHelper(ProbabilityTreeNode node){
-        if(node.getNoNode() != null && node.getYesNode() != null){
-            node.getYesNode().setTotalProb(node.getTotalProb() * node.getYesNode().getProb());
-            node.getNoNode().setTotalProb(node.getTotalProb() * node.getNoNode().getProb());
-            updateTreeHelper(node.getYesNode());
-            updateTreeHelper(node.getNoNode());
-
-        }
-    }
-
     public double pHelper(ProbabilityTreeNode node, double d) {
         if(node == null){
             return d;
@@ -97,6 +96,21 @@ public class ProbabilityTree{
         return d;
     }
 
+    public void updateTree(ProbabilityTreeNode startNode){
+        startNode.setTotalProb(1);
+        updateTreeHelper(startNode);
+    }
+
+    public void updateTreeHelper(ProbabilityTreeNode node){
+        if(node.getNoNode() != null && node.getYesNode() != null){
+            node.getYesNode().setTotalProb(node.getTotalProb() * node.getYesNode().getProb());
+            node.getNoNode().setTotalProb(node.getTotalProb() * node.getNoNode().getProb());
+            updateTreeHelper(node.getYesNode());
+            updateTreeHelper(node.getNoNode());
+
+        }
+    }
+
     public ProbabilityTreeNode getRoot() {
         return root;
     }
@@ -105,6 +119,8 @@ public class ProbabilityTree{
         return currentNode;
     }
 
+
+    //TODO Finish Method
     public String assignName(){
         String s = "";
         String baseName = "";
