@@ -32,6 +32,9 @@ public class Main {
         System.out.println("Probability of getting a straight after 3 yes and 1 no is " + treeForStraight.getProbabilityOfAchievingHand(treeForStraight.getCurrentNode()));
 
         ProbabilityTree testForTrips = new ProbabilityTree(3,2,1, 2, new Card(1,14));
+//        System.out.println(testForTrips);
+
+        ProbabilityTree testForFlush = new ProbabilityTree(12, 4, 1, 4, new Card(1,7));
 
         Card[] tableCards = new Card[5];
         Card card1 = deck.removeCard();

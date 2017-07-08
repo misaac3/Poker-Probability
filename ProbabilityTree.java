@@ -16,10 +16,12 @@ public class ProbabilityTree{
     private ProbabilityTreeNode currentNode;
 
     private TargetCardArrayList targetCards;
+    private Card distinguisingCard1, distinguisingCard2;
 
 
-    public ProbabilityTree(double target, double needed, double targetDecrementation, int type, Card distinguisingCard){
 
+    public ProbabilityTree(double target, double needed, double targetDecrementation, int type, Card distinguisingCard1,
+                           Card distinguisingCard2){
 
         this.currentNode = this.root = new ProbabilityTreeNode(target, deck, needed, targetDecrementation, prob, totalProb);
         this.root.setTotalProb(1.0);
@@ -37,20 +39,62 @@ public class ProbabilityTree{
         }
 
         if(type != 3 && type < 7){
-            targetCards.intializeTargetCards(distinguisingCard, type);
+            targetCards.intializeTargetCards(distinguisingCard1, type);
         }
         else if(type == 3){
-            targetCards.intializeStraightTargets(distinguisingCard.getValueNum()); //TODO when making trees for straights make new Cards when contruscting
+            targetCards.intializeStraightTargets(distinguisingCard1.getValueNum()); //TODO when making trees for straights make new Cards when contruscting
         }
         else if (type == 7){
-            targetCards.intializeSuitedStraightTargets(distinguisingCard.getValueNum(), distinguisingCard, 0);
+            targetCards.intializeSuitedStraightTargets(distinguisingCard1.getValueNum(), distinguisingCard1, 0);
         }
         else {
-            targetCards.intializeSuitedStraightTargets(14, distinguisingCard, 1);
+            targetCards.intializeSuitedStraightTargets(14, distinguisingCard1, 1);
 
         }
 
-        System.out.println("\nI am printing from the ProbabilityTree Constructor\nMy distinguisingCard is " + distinguisingCard + " \nHere are my target Cards: " + targetCards + "\n");
+        this.distinguisingCard1 = distinguisingCard1;
+        this.distinguisingCard2 = distinguisingCard2;
+
+        System.out.println("\nI am printing from the ProbabilityTree Constructor\nMy distinguisingCard is " + distinguisingCard1 + " \nHere are my target Cards: " + targetCards + "\n");
+
+
+    }
+
+    public ProbabilityTree(double target, double needed, double targetDecrementation, int type, Card distinguisingCard1){
+
+      //  this.name = assignName();
+        this.currentNode = this.root = new ProbabilityTreeNode(target, deck, needed, targetDecrementation, prob, totalProb);
+        this.root.setTotalProb(1.0);
+        updateTree(root);
+        this.type = type;
+
+        if(type < 4 || type == 5 || type == 6){
+            targetCards = new TargetCardArrayList(1);
+        }
+        else if(type == 4){
+            targetCards = new TargetCardArrayList(2);
+        }
+        else{
+            targetCards = new TargetCardArrayList(3);
+        }
+
+        if(type != 3 && type < 7){
+            targetCards.intializeTargetCards(distinguisingCard1, type);
+        }
+        else if(type == 3){
+            targetCards.intializeStraightTargets(distinguisingCard1.getValueNum()); //TODO when making trees for straights make new Cards when contruscting
+        }
+        else if (type == 7){
+            targetCards.intializeSuitedStraightTargets(distinguisingCard1.getValueNum(), distinguisingCard1, 0);
+        }
+        else {
+            targetCards.intializeSuitedStraightTargets(14, distinguisingCard1, 1);
+
+        }
+
+        this.distinguisingCard1 = distinguisingCard1;
+
+        System.out.println("\nI am printing from the ProbabilityTree Constructor\nMy distinguisingCard is " + distinguisingCard1 + " \nHere are my target Cards: " + targetCards + "\n");
 
 
 
@@ -126,25 +170,25 @@ public class ProbabilityTree{
         String baseName = "";
         switch (this.type){
             case 0:
-                baseName = "pair of ";
+                baseName = "pair of " + distinguisingCard1.getValue();
                 break;
             case 1:
                 baseName = "two pair of ";
                 break;
             case 2:
-                baseName = "three of a kind of ";
+                baseName = "three of a kind of " + distinguisingCard1.getValue();
                 break;
             case 3:
-                baseName = "straight of ";
+                baseName = "straight of " + distinguisingCard1.getValue();
                 break;
             case 4:
-                baseName = "flush of ";
+                baseName = "flush of " + distinguisingCard1.getSuit();
                 break;
             case 5:
                 baseName = "full house of ";
                 break;
             case 6:
-                baseName = "four of a kind of ";
+                baseName = "four of a kind of " + distinguisingCard1.getValue();
                 break;
             case 7:
                 baseName = "straight flush  of ";
@@ -155,7 +199,16 @@ public class ProbabilityTree{
 
         }
 
-        return s;
+
+        return baseName;
     }
 
+    public TargetCardArrayList getTargetCards() {
+        return targetCards;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

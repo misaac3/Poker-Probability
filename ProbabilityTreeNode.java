@@ -67,6 +67,8 @@ public class ProbabilityTreeNode{
     public double getProb() {
         return prob;
     }
+
+
 }
 
 

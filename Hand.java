@@ -14,6 +14,8 @@ public class Hand {
     private int numPossibleStraights;
     private String str;
     private ArrayList<ArrayList<ProbabilityTree>> treeStorage = new ArrayList<ArrayList<ProbabilityTree>>(9);
+
+
     private boolean isPair, isSuited;
 
 
@@ -38,9 +40,19 @@ public class Hand {
 
     public ArrayList<ArrayList<ProbabilityTree>> fillTreeStorage(){
         ArrayList<ArrayList<ProbabilityTree>> ts = new ArrayList<ArrayList<ProbabilityTree>>(9);
-        if(isPair){
-           // ts.get(0).add(new ProbabilityTree(2,0, 1));
+        if(!isPair){
+            //pair
+            createTree(card1, "pair");
+            createTree(card2, "pair:");
+
+            //two pair
+                //createTree()
+
+
+
+
         }
+
 
 
 
@@ -49,6 +61,81 @@ public class Hand {
        return ts;
     }
 
+    public ProbabilityTree createTree(Card card, String handType){
+        switch (handType.toLowerCase().trim()){
+            case "pair":
+                return new ProbabilityTree(3, 1, 1,0, card);
+
+            case "two pair":
+                return new ProbabilityTree(6, 2, 1, 1, card);
+
+            case "three of a kind":
+                return new ProbabilityTree(3, 2, 1, 2, card);
+
+            case "straight":
+                return new ProbabilityTree(16, 4, 4, 3, card);
+
+            case "flush":
+                return new ProbabilityTree(12, 4, 1, 4, card);
+
+            case "full house": //TODO
+                break;
+
+            case "four of a kind":
+                return new ProbabilityTree(3, 3, 1, 6, card);
+
+            case "straight flush":
+                return new ProbabilityTree(4, 4, 1, 7, card);
+
+            case "royal flush":
+                return new ProbabilityTree(4, 4, 1, 8, card);
+
+        }
+        return new ProbabilityTree(1,1,1,1,card);
+    }
+
+    public ProbabilityTree createTree(Card card1, Card card2, String handType){
+       ProbabilityTree newTree = new ProbabilityTree(0, 0, 0, 0, card1);;
+        switch (handType.toLowerCase().trim()){
+            case "pair":
+                newTree = new ProbabilityTree(3, 1, 1,0, card1);
+                break;
+
+            case "two pair":
+                newTree = new ProbabilityTree(6, 2, 1, 1, card1);
+                break;
+
+            case "three of a kind":
+                newTree =  new ProbabilityTree(3, 2, 1, 2, card1);
+                break;
+
+            case "straight":
+                newTree =  new ProbabilityTree(16, 4, 4, 3, card1);
+                break;
+
+            case "flush":
+                newTree =  new ProbabilityTree(12, 4, 1, 4, card1);
+                break;
+
+            case "full house": //TODO
+                break;
+
+            case "four of a kind":
+                newTree =  new ProbabilityTree(3, 3, 1, 6, card1);
+                break;
+
+            case "straight flush":
+                newTree =  new ProbabilityTree(4, 4, 1, 7, card1);
+                break;
+
+            case "royal flush":
+                newTree =  new ProbabilityTree(4, 4, 1, 8, card1);
+                break;
+        }
+
+        newTree.getTargetCards().updateInitialTargets(card2);
+        return newTree;
+    }
 
 
 

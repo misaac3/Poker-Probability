@@ -5,19 +5,19 @@ import java.util.ArrayList;
  */
 public class TargetCardArrayList extends ArrayList {
     //Type 1 is value, Type 2 is suit, Type 3 is Both
-    private int type;
+    private int targetType, handType;
 
-    public TargetCardArrayList(int type){
-        this.type = type;
+    public TargetCardArrayList(int targetType){
+        this.targetType = targetType;
 
     }
 
     public boolean contains(Card card) {
-        if(type == 1){
+        if(targetType == 1){
             Integer value = card.getValueNum();
             return super.contains(value);
         }
-        else if (type == 2){
+        else if (targetType == 2){
             String suit = card.getSuit();
             return super.contains(suit);
         }
@@ -31,45 +31,47 @@ public class TargetCardArrayList extends ArrayList {
         int value = card.getValueNum();
         String suit = card.getSuit();
         int suitNum = card.getSuitNum();
+        this.handType = typeOfHand;
 
         switch (typeOfHand){
             case 0:
                 add(value);
                 break;
+
             case 1:
                 //TODO Two Pair
                 break;
+
             case 2:
                 add(value);
                 add(value);
                 break;
-//            case 3:
-//                for (int i = 1; i < 5; i++) {
-//                    if(value -)
-//                    add(value - i);
-//                }
-//                break;
+
             case 4:
-                for (int i = 0; i < 4; i++) {
-                    add(suit);
+                for (int i = 0; i < 13; i++) {
+                    Card newCard = new Card(suitNum, i + 2);
+                    if(newCard.getValueNum() == card.getValueNum()){
+                       continue;
+                    }
+                    else {
+                        add(newCard);
+                    }
+
                 }
+
                 break;
+
             case 5: //TODO Full House
                 break;
+
             case 6:
                 add(value);
                 add(value);
                 add(value);
                 break;
-//            case 7:
-//                for (int i = 0; i < 4; i++) {
-//                    add(new Card(suitNum, ));
-//                }
-//                break;
-//            case 8:
-//                break;
-
         }
+
+
     }
 
     public void intializeStraightTargets(int highCardInStraight){
@@ -114,6 +116,49 @@ public class TargetCardArrayList extends ArrayList {
 
     }
 
+    public void updateInitialTargets(Card secondCard){
+        int value = secondCard.getValueNum();
+        String suit = secondCard.getSuit();
+        int suitNum = secondCard.getSuitNum();
+
+        switch (handType){
+            case 0:
+                remove(indexOf(value));
+                break;
+
+            case 1:
+                //TODO Two Pair
+                break;
+
+            case 2:
+                remove(indexOf(value));
+                break;
+
+            case 3:
+                remove(indexOf(value));
+                break;
+
+            case 4:
+                remove(indexOf(secondCard));
+                break;
+
+            case 5: //TODO Full House
+                break;
+
+            case 6:
+                remove(indexOf(value));
+                break;
+
+            case 7:
+                remove(indexOf(secondCard));
+                break;
+
+            case 8:
+                remove(indexOf(secondCard));
+                break;
+        }
+    }
+
     @Override
     public String toString() {
         String s = "Target card";
@@ -125,7 +170,7 @@ public class TargetCardArrayList extends ArrayList {
         }
 
         for (int i = 0; i < size(); i++) {
-            if(type == 1 && (int)get(i) > 10){
+            if(targetType == 1 && (int)get(i) > 10){
                 switch ((int) get(i)){
                     case 11:
                         s += "Jack ";
