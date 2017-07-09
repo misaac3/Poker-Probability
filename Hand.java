@@ -1,3 +1,5 @@
+import sun.awt.geom.AreaOp;
+
 import java.util.ArrayList;
 
 /**
@@ -13,8 +15,10 @@ public class Hand {
     private int cardsBetweenStraightDraw;
     private int numPossibleStraights;
     private String str;
-    private ArrayList<ArrayList<ProbabilityTree>> treeStorage = new ArrayList<ArrayList<ProbabilityTree>>(9);
+//    private ArrayList<ArrayList<ProbabilityTree>> treeStorage = new ArrayList<ArrayList<ProbabilityTree>>(9);
 
+//private ArrayList<TreeList> treeStorage = new ArrayList<TreeList>(9);
+    private TreeList[] treeStorage = new TreeList[9];
 
     private boolean isPair, isSuited;
 
@@ -35,20 +39,197 @@ public class Hand {
         this.isPair = determineInitialIsPair();
         this.isSuited = determineInitialIsSuited();
 
+        this.treeStorage = fillTreeStorage();
+
 
     }
 
-    public ArrayList<ArrayList<ProbabilityTree>> fillTreeStorage(){
-        ArrayList<ArrayList<ProbabilityTree>> ts = new ArrayList<ArrayList<ProbabilityTree>>(9);
+//    public ArrayList<TreeList> fillTreeStorage(){
+//        ArrayList<TreeList>  ts = new ArrayList<TreeList> (9);
+//        for (int i = 0; i < ts.size(); i++) {
+//            ts.add(i, new TreeList());
+//            System.out.println("The size of the TreeStorage is " + ts.size());
+//        }
+//        if(!isPair){
+//            //pair
+//            ts.get(0).add(createTree(card1, "pair"));
+//            ts.get(0).add(createTree(card2, "pair"));
+//
+//            //two pair
+//            ts.get(1).add(createTree(card1, card2, "two pair"));
+//
+//            //three of a kind
+//            ts.get(2).add(createTree(card1, "three of a kind"));
+//            ts.get(2).add(createTree(card2, "three of a kind"));
+//
+//            //straight
+//            ts.add(3, createTreesForStraight(card1, card2));
+//
+//            //flush in if(suited)
+//
+//            //full house
+//            //TODO
+//
+//            //four of a kind
+//            ts.get(6).add(createTree(card1, "four of a kind"));
+//            ts.get(6).add(createTree(card2, "four of a kind"));
+//
+//            //straight flush //TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+////            ts.get(7).add(createTree(card1, "straight flush"));
+//
+//            //royal flush depends on if it is 10, J, Q, K, or A
+//        }
+//        else {
+//            // pair
+//            ts.get(0).add(createdCompletedTree(card1, card2, "pair"));
+//
+//            //two pair depends on table duplicates
+//
+//            //three of a kind
+//            ts.get(2).add(createTree(card1, card2, "three of a kind"));
+//
+//            //straight
+//            ts.add(3, createTreesForStraight(card1, card2));
+//
+//            //flush in if(suited)
+//
+//            //full house TODO
+//
+//            //four of a kind
+//            ts.get(6).add(createTree(card1, card2, "four of a kind"));
+//
+//            //straight flush TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+////            ts.get(7).add(createTree(card1, "straight flush"));
+//
+//            //royal flush depends on if it is 10, J, Q, K, or A
+//        }
+//
+//        if (!isSuited){
+//            //flush
+//            ts.get(4).add(createTree(card1, "flush"));
+//            ts.get(4).add(createTree(card2, "flush"));
+//
+//            //straight flush
+//            ts.add(7, createTreesForStraightFlush(card1, card2));
+//
+//            //royal flush
+//            if(card1.getValueNum() > 9){
+//                ts.get(8).add(createTree(card1, "royal flush"));
+//            }
+//            if (card2.getValueNum() > 9){
+//                ts.get(8).add(createTree(card2, "royal flush"));
+//            }
+//
+//        }
+//        else {
+//            //flush
+//            ts.get(4).add(createTree(card1, card2, "flush"));
+//
+//            //straight flush
+//            ts.add(7, createTreesForStraight(card1, card2));
+//
+//            //royal flush
+//            if(card1.getValueNum() > 9){
+//                ts.get(8).add(createTree(card1, "royal flush"));
+//            }
+//            if (card2.getValueNum() > 9){
+//                ts.get(8).add(createTree(card2, "royal flush"));
+//            }
+//
+//
+//        }
+//
+
+    public TreeList[] fillTreeStorage(){
+        TreeList[]  ts = new TreeList[9];
+        for (int i = 0; i < ts.length; i++) {
+            ts[i] = new TreeList();
+        }
         if(!isPair){
             //pair
-            createTree(card1, "pair");
-            createTree(card2, "pair:");
+            ts[0].add(createTree(card1, "pair"));
+            ts[0].add(createTree(card2, "pair"));
 
             //two pair
-                //createTree()
+            ts[1].add(createTree(card1, card2, "two pair"));
 
+            //three of a kind
+            ts[2].add(createTree(card1, "three of a kind"));
+            ts[2].add(createTree(card2, "three of a kind"));
 
+            //straight
+            //ts[3].add(createTreesForStraight(card1, card2));
+
+            //flush in if(suited)
+
+            //full house
+            //TODO
+
+            //four of a kind
+            ts[6].add(createTree(card1, "four of a kind"));
+            ts[6].add(createTree(card2, "four of a kind"));
+
+            //straight flush //TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+            ts[7].add(createTree(card1, "straight flush"));
+
+            //royal flush depends on if it is 10, J, Q, K, or A
+        }
+        else {
+            // pair
+            ts[0].add(createdCompletedTree(card1, card2, "pair"));
+
+            //two pair depends on table duplicates
+
+            //three of a kind
+            ts[2].add(createTree(card1, card2, "three of a kind"));
+
+            //straight
+            //ts[3].createTreesForStraight(card1, card2));
+
+            //flush in if(suited)
+
+            //full house TODO
+
+            //four of a kind
+            ts[6].add(createTree(card1, card2, "four of a kind"));
+
+            //straight flush TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+//            ts.get(7).add(createTree(card1, "straight flush"));
+
+            //royal flush depends on if it is 10, J, Q, K, or A
+        }
+
+        if (!isSuited){
+            //flush
+            ts[4].add(createTree(card1, "flush"));
+            ts[4].add(createTree(card2, "flush"));
+
+            //straight flush
+            //ts.add(7, createTreesForStraightFlush(card1, card2));
+
+            //royal flush
+            if(card1.getValueNum() > 9){
+                ts[8].add(createTree(card1, "royal flush"));
+            }
+            if (card2.getValueNum() > 9){
+                ts[8].add(createTree(card2, "royal flush"));
+            }
+
+        }
+        else {
+            //flush
+            ts[4].add(createTree(card1, card2, "flush"));
+
+            //straight flush
+//            ts.add(7, createTreesForStraight(card1, card2));
+
+            //royal flush
+            if(card1.getValueNum() > 9){
+                ts[8].add(createTree(card1, "royal flush"));
+            }
+            if (card2.getValueNum() > 9){
+                ts[8].add(createTree(card2, "royal flush"));
+            }
 
 
         }
@@ -60,6 +241,322 @@ public class Hand {
 
        return ts;
     }
+
+//    public ArrayList<TreeList> fillTreeStorage(){
+//        ArrayList<TreeList>  ts = new ArrayList<TreeList> (9);
+//        for (int i = 0; i < ts.size(); i++) {
+//            ts.add(i, new TreeList());
+//            System.out.println("The size of the TreeStorage is " + ts.size());
+//        }
+//        if(!isPair){
+//            //pair
+//            ts.get(0).add(createTree(card1, "pair"));
+//            ts.get(0).add(createTree(card2, "pair"));
+//
+//            //two pair
+//            ts.get(1).add(createTree(card1, card2, "two pair"));
+//
+//            //three of a kind
+//            ts.get(2).add(createTree(card1, "three of a kind"));
+//            ts.get(2).add(createTree(card2, "three of a kind"));
+//
+//            //straight
+//            ts.add(3, createTreesForStraight(card1, card2));
+//
+//            //flush in if(suited)
+//
+//            //full house
+//            //TODO
+//
+//            //four of a kind
+//            ts.get(6).add(createTree(card1, "four of a kind"));
+//            ts.get(6).add(createTree(card2, "four of a kind"));
+//
+//            //straight flush //TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+////            ts.get(7).add(createTree(card1, "straight flush"));
+//
+//            //royal flush depends on if it is 10, J, Q, K, or A
+//        }
+//        else {
+//            // pair
+//            ts.get(0).add(createdCompletedTree(card1, card2, "pair"));
+//
+//            //two pair depends on table duplicates
+//
+//            //three of a kind
+//            ts.get(2).add(createTree(card1, card2, "three of a kind"));
+//
+//            //straight
+//            ts.add(3, createTreesForStraight(card1, card2));
+//
+//            //flush in if(suited)
+//
+//            //full house TODO
+//
+//            //four of a kind
+//            ts.get(6).add(createTree(card1, card2, "four of a kind"));
+//
+//            //straight flush TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+////            ts.get(7).add(createTree(card1, "straight flush"));
+//
+//            //royal flush depends on if it is 10, J, Q, K, or A
+//        }
+//
+//        if (!isSuited){
+//            //flush
+//            ts.get(4).add(createTree(card1, "flush"));
+//            ts.get(4).add(createTree(card2, "flush"));
+//
+//            //straight flush
+//            ts.add(7, createTreesForStraightFlush(card1, card2));
+//
+//            //royal flush
+//            if(card1.getValueNum() > 9){
+//                ts.get(8).add(createTree(card1, "royal flush"));
+//            }
+//            if (card2.getValueNum() > 9){
+//                ts.get(8).add(createTree(card2, "royal flush"));
+//            }
+//
+//        }
+//        else {
+//            //flush
+//            ts.get(4).add(createTree(card1, card2, "flush"));
+//
+//            //straight flush
+//            ts.add(7, createTreesForStraight(card1, card2));
+//
+//            //royal flush
+//            if(card1.getValueNum() > 9){
+//                ts.get(8).add(createTree(card1, "royal flush"));
+//            }
+//            if (card2.getValueNum() > 9){
+//                ts.get(8).add(createTree(card2, "royal flush"));
+//            }
+//
+//
+//        }
+//
+////    public TreeList[] fillTreeStorage(){
+////        TreeList[]  ts = new TreeList[9];
+////        if(!isPair){
+////            //pair
+////            ts[0].add(createTree(card1, "pair"));
+////            ts[0].add(createTree(card2, "pair"));
+////
+////            //two pair
+////            ts[1].add(createTree(card1, card2, "two pair"));
+////
+////            //three of a kind
+////            ts[2].add(createTree(card1, "three of a kind"));
+////            ts[2].add(createTree(card2, "three of a kind"));
+////
+////            //straight
+////            //ts.add(3, createTreesForStraight(card1, card2));
+////
+////            //flush in if(suited)
+////
+////            //full house
+////            //TODO
+////
+////            //four of a kind
+////            ts[6].add(createTree(card1, "four of a kind"));
+////            ts[6].add(createTree(card2, "four of a kind"));
+////
+////            //straight flush //TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+//////            ts.get(7).add(createTree(card1, "straight flush"));
+////
+////            //royal flush depends on if it is 10, J, Q, K, or A
+////        }
+//////        else {
+//////            // pair
+//////            ts.get(0).add(createdCompletedTree(card1, card2, "pair"));
+//////
+//////            //two pair depends on table duplicates
+//////
+//////            //three of a kind
+//////            ts.get(2).add(createTree(card1, card2, "three of a kind"));
+//////
+//////            //straight
+//////            ts.add(3, createTreesForStraight(card1, card2));
+//////
+//////            //flush in if(suited)
+//////
+//////            //full house TODO
+//////
+//////            //four of a kind
+//////            ts.get(6).add(createTree(card1, card2, "four of a kind"));
+//////
+//////            //straight flush TODO THIS ALWAYS HAPPENS UNLESS THEY ARE THE SAME SUIT AND WITHIN 5 OF EACH OTHER
+////////            ts.get(7).add(createTree(card1, "straight flush"));
+//////
+//////            //royal flush depends on if it is 10, J, Q, K, or A
+//////        }
+//////
+//////        if (!isSuited){
+//////            //flush
+//////            ts.get(4).add(createTree(card1, "flush"));
+//////            ts.get(4).add(createTree(card2, "flush"));
+//////
+//////            //straight flush
+//////            ts.add(7, createTreesForStraightFlush(card1, card2));
+//////
+//////            //royal flush
+//////            if(card1.getValueNum() > 9){
+//////                ts.get(8).add(createTree(card1, "royal flush"));
+//////            }
+//////            if (card2.getValueNum() > 9){
+//////                ts.get(8).add(createTree(card2, "royal flush"));
+//////            }
+//////
+//////        }
+//////        else {
+//////            //flush
+//////            ts.get(4).add(createTree(card1, card2, "flush"));
+//////
+//////            //straight flush
+//////            ts.add(7, createTreesForStraight(card1, card2));
+//////
+//////            //royal flush
+//////            if(card1.getValueNum() > 9){
+//////                ts.get(8).add(createTree(card1, "royal flush"));
+//////            }
+//////            if (card2.getValueNum() > 9){
+//////                ts.get(8).add(createTree(card2, "royal flush"));
+//////            }
+//////
+//////
+//////        }
+//
+//
+//
+//
+//
+//
+//        return ts;
+//    }
+
+
+
+    public ProbabilityTree createdCompletedTree(Card card1, Card card2, String handType){
+        if (handType.toLowerCase().trim().equals("pair")){
+            return new ProbabilityTree(2, 0, 1,0, card1);
+        }
+        else {
+            return null;
+        }
+    }
+
+    public TreeList createTreesForStraight(Card card1, Card card2){
+        ArrayList<Integer> possibleStraights = new ArrayList<Integer>(10);
+        int baseValue1 = card1.getValueNum() + 4; //ie 10 + 4 = 14, the straight where 10 is the lowest card is where
+                                                  // 14(Ace) is the high card
+       // int baseVal1 = newVal1;
+        int count1 = 0;
+
+        if (baseValue1 > 14){
+            baseValue1 = 14;
+         //   baseVal1 = 14;
+        }
+
+        while(count1 < 5){
+            int entryValue = baseValue1 - count1;
+            if(entryValue < card1.getValueNum() || entryValue < 5){
+                break;
+            }
+            else {
+                possibleStraights.add(entryValue);
+                count1++;
+            }
+        }
+
+        if(!isPair) {
+            int baseValue2 = card2.getValueNum() + 4;
+            int count2 = 0;
+
+            while (count2 < 5) {
+                int entryValue = baseValue2 - count2;
+                if (!(possibleStraights.contains(entryValue))) {
+                    if (entryValue < card2.getValueNum() || entryValue < 5) {
+                        break;
+                    } else {
+                        possibleStraights.add(entryValue);
+                        count2++;
+                    }
+                }
+            }
+        }
+
+        TreeList tempTreeList = new TreeList();
+        for (int i = 0; i < possibleStraights.size(); i++) {
+            tempTreeList.add(new ProbabilityTree(16, 4, 4, 3, new Card(1,
+                    possibleStraights.get(i))));
+
+            tempTreeList.get(i).getTargetCards().updateInitialTargets(card1);
+
+            if (!isPair){
+            tempTreeList.get(i).getTargetCards().updateInitialTargets(card2);
+            }
+        }
+
+        return tempTreeList;
+    }
+
+    public TreeList createTreesForStraightFlush(Card card1, Card card2){
+        ArrayList<Integer> possibleStraights = new ArrayList<>(10);
+        int baseValue1 = card1.getValueNum() + 4; //ie 10 + 4 = 14, the straight where 10 is the lowest card is where
+        // 14(Ace) is the high card
+        // int baseVal1 = newVal1;
+        int count1 = 0;
+
+        if (baseValue1 > 14){
+            baseValue1 = 14;
+            //   baseVal1 = 14;
+        }
+
+        while(count1 < 5){
+            int entryValue = baseValue1 - count1;
+            if(entryValue < card1.getValueNum() || entryValue < 5){
+                break;
+            }
+            else {
+                possibleStraights.add(entryValue);
+                count1++;
+            }
+        }
+
+        if(!isPair) {
+            int baseValue2 = card2.getValueNum() + 4;
+            int count2 = 0;
+
+            while (count2 < 5) {
+                int entryValue = baseValue2 - count2;
+                if (!(possibleStraights.contains(entryValue))) {
+                    if (entryValue < card2.getValueNum() || entryValue < 5) {
+                        break;
+                    } else {
+                        possibleStraights.add(entryValue);
+                        count2++;
+                    }
+                }
+            }
+        }
+
+        TreeList tempTreeList = new TreeList();
+        for (int i = 0; i < possibleStraights.size(); i++) {
+            tempTreeList.add(new ProbabilityTree(4, 4, 4, 7, new Card(card1.getSuitNum(),
+                    possibleStraights.get(i))));
+
+            tempTreeList.get(i).getTargetCards().updateInitialTargets(card1);
+
+            if (!isPair){
+                tempTreeList.get(i).getTargetCards().updateInitialTargets(card2);
+            }
+        }
+
+        return tempTreeList;
+    }
+
 
     public ProbabilityTree createTree(Card card, String handType){
         switch (handType.toLowerCase().trim()){
@@ -183,23 +680,6 @@ public class Hand {
         return card1.getSuitNum() == card2.getSuitNum();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public Card getCard1() {
         return card1;
     }
@@ -232,7 +712,6 @@ public class Hand {
 
         return card1;
     }
-
 
     public int getNumPossibleStraights() {
         return numPossibleStraights;
@@ -280,7 +759,7 @@ public class Hand {
         return false;
     }
 
-
-
-
+    public TreeList[] getTreeStorage() {
+        return treeStorage;
+    }
 }

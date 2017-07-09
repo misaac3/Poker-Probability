@@ -67,6 +67,7 @@ public class ProbabilityTree{
         this.root.setTotalProb(1.0);
         updateTree(root);
         this.type = type;
+//        this.name = assignName();
 
         if(type < 4 || type == 5 || type == 6){
             targetCards = new TargetCardArrayList(1);

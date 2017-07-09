@@ -14,7 +14,7 @@ public class Main {
         deck = shuffleDeck(deck);
         deck.printDeck();
 
-        ProbabilityTree treeForPair = new ProbabilityTree(6, 1, 1,0, new Card(2,12));
+        ProbabilityTree treeForPair = new ProbabilityTree(3, 1, 3,0, new Card(2,12));
         System.out.println("Probability of getting a Pair is " + treeForPair.getProbabilityOfAchievingHand(treeForPair.getCurrentNode()));
         System.out.println("Moving current node to yes");
         treeForPair.moveCurrentNode("yes");
@@ -55,6 +55,12 @@ public class Main {
             System.out.println(playerList[i]);
         }
 
+//        for (int i = 0; i < playerList[1].getHand().; i++) {
+//
+//        }
+
+        double probOfGettingAPair = playerList[0].getHand().getTreeStorage()[0].get(0).getProbabilityOfAchievingHand(playerList[0].getHand().getTreeStorage()[0].get(0).getCurrentNode());
+        System.out.println("probOfGettingAPair is " + (probOfGettingAPair * 100.0) + "%");
         System.out.println();
         for (int i = 1; i < 4; i++) {
 
@@ -68,6 +74,9 @@ public class Main {
             if (i == 3) {
                 table.drawRiver();
             }
+
+
+
 
 //            printPlayerCurrently(playerList, table);
 //            printFlushProb(playerList, table);
