@@ -95,7 +95,7 @@ public class ProbabilityTree{
 
         this.distinguisingCard1 = distinguisingCard1;
 
-        System.out.println("\nI am printing from the ProbabilityTree Constructor\nMy distinguisingCard is " + distinguisingCard1 + " \nHere are my target Cards: " + targetCards + "\n");
+//System.out.println("\nI am printing from the ProbabilityTree Constructor\nMy distinguisingCard is " + distinguisingCard1 + " \nHere are my target Cards: " + targetCards + "\n");
 
 
 
@@ -148,8 +148,10 @@ public class ProbabilityTree{
 
     public void updateTreeHelper(ProbabilityTreeNode node){
         if(node.getNoNode() != null && node.getYesNode() != null){
+
             node.getYesNode().setTotalProb(node.getTotalProb() * node.getYesNode().getProb());
             node.getNoNode().setTotalProb(node.getTotalProb() * node.getNoNode().getProb());
+
             updateTreeHelper(node.getYesNode());
             updateTreeHelper(node.getNoNode());
 

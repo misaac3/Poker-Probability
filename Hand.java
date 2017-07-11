@@ -143,7 +143,7 @@ public class Hand {
     public TreeList[] fillTreeStorage(){
         TreeList[]  ts = new TreeList[9];
         for (int i = 0; i < ts.length; i++) {
-            ts[i] = new TreeList();
+            ts[i] = new TreeList(i);
         }
         if(!isPair){
             //pair
@@ -158,7 +158,7 @@ public class Hand {
             ts[2].add(createTree(card2, "three of a kind"));
 
             //straight
-            //ts[3].add(createTreesForStraight(card1, card2));
+            ts[3] = (createTreesForStraight(card1, card2));
 
             //flush in if(suited)
 
@@ -487,7 +487,7 @@ public class Hand {
             }
         }
 
-        TreeList tempTreeList = new TreeList();
+        TreeList tempTreeList = new TreeList(3);
         for (int i = 0; i < possibleStraights.size(); i++) {
             tempTreeList.add(new ProbabilityTree(16, 4, 4, 3, new Card(1,
                     possibleStraights.get(i))));
@@ -542,7 +542,7 @@ public class Hand {
             }
         }
 
-        TreeList tempTreeList = new TreeList();
+        TreeList tempTreeList = new TreeList(7);
         for (int i = 0; i < possibleStraights.size(); i++) {
             tempTreeList.add(new ProbabilityTree(4, 4, 4, 7, new Card(card1.getSuitNum(),
                     possibleStraights.get(i))));
@@ -592,7 +592,7 @@ public class Hand {
     }
 
     public ProbabilityTree createTree(Card card1, Card card2, String handType){
-       ProbabilityTree newTree = new ProbabilityTree(0, 0, 0, 0, card1);;
+       ProbabilityTree newTree = new ProbabilityTree(0, 0, 0, 0, card1);
         switch (handType.toLowerCase().trim()){
             case "pair":
                 newTree = new ProbabilityTree(3, 1, 1,0, card1);
@@ -628,6 +628,7 @@ public class Hand {
             case "royal flush":
                 newTree =  new ProbabilityTree(4, 4, 1, 8, card1);
                 break;
+
         }
 
         newTree.getTargetCards().updateInitialTargets(card2);

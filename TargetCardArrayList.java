@@ -83,7 +83,7 @@ public class TargetCardArrayList extends ArrayList {
             }
             else {
                 add(currVal - 1);
-                System.out.println("\nprinting from TargetCardArrayList\n I just added " + (currVal - 1) + " to the TargetCards");
+//System.out.println("\nprinting from TargetCardArrayList\n I just added " + (currVal - 1) + " to the TargetCards");
             }
 
             currVal--;
@@ -110,7 +110,8 @@ public class TargetCardArrayList extends ArrayList {
             }
             else {
                 add(new Card(suitNum, currVal - 1));
-                System.out.println("\nprinting from TargetCardArrayList\n I just added " + (currVal - 1) + " to the TargetCards");            }
+                //System.out.println("\nprinting from TargetCardArrayList\n I just added " + (currVal - 1) + " to the TargetCards");
+            }
             currVal--;
         }
 
@@ -121,41 +122,43 @@ public class TargetCardArrayList extends ArrayList {
         String suit = secondCard.getSuit();
         int suitNum = secondCard.getSuitNum();
 
-        switch (handType){
-            case 0:
-                remove(indexOf(value));
-                break;
+        if(contains(value) || contains(secondCard)) {
+            switch (handType) {
+                case 0:
+                    remove(indexOf(value));
+                    break;
 
-            case 1:
-                //TODO Two Pair
-                break;
+                case 1:
+                    //TODO Two Pair
+                    break;
 
-            case 2:
-                remove(indexOf(value));
-                break;
+                case 2:
+                    remove(indexOf(value));
+                    break;
 
-            case 3:
-                remove(indexOf(value));
-                break;
+                case 3:
+                    remove(indexOf(value));
+                    break;
 
-            case 4:
-                remove(indexOf(secondCard));
-                break;
+                case 4:
+                    remove(indexOf(secondCard));
+                    break;
 
-            case 5: //TODO Full House
-                break;
+                case 5: //TODO Full House
+                    break;
 
-            case 6:
-                remove(indexOf(value));
-                break;
+                case 6:
+                    remove(indexOf(value));
+                    break;
 
-            case 7:
-                remove(indexOf(secondCard));
-                break;
+                case 7:
+                    remove(indexOf(secondCard));
+                    break;
 
-            case 8:
-                remove(indexOf(secondCard));
-                break;
+                case 8:
+                    remove(indexOf(secondCard));
+                    break;
+            }
         }
     }
 
